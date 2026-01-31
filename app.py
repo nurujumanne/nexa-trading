@@ -1,19 +1,29 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(
+    title="NEXA Trading",
+    description="NEXA Trading Web App",
+    version="1.0.0"
+)
 
-# Static files (CSS, JS, images)
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Ruhusu frontend (browser / app)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# Templates folder
-templates = Jinja2Templates(directory="templates")
+@app.get("/")
+def home():
+    return {
+        "status": "ok",
+        "app": "NEXA Trading",
+        "message": "NEXA Trading backend is running successfully"
+    }
 
-@app.get("/", response_class=HTMLResponse)
-async def home(request: Request):
-    return templates.TemplateResponse(
-        "index.html",
-        {"request": request}
-    )
+@app.get("/health")
+def health():
+    return {"health": "good"}
