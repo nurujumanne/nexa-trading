@@ -1,10 +1,2 @@
-<<<<<<< HEAD
 fastapi
 uvicorn
-jinja2
-=======
-fastapi
-uvicorn
-jinja2
->>>>>>> 0097cc1789bb152c06f3b538be72f43292178e15
-python-multipart
